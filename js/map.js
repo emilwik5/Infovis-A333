@@ -52,15 +52,15 @@ function worldMap(data) {
      */
     //Transforming to the specific projection
 
-    let transform = d3.geoTransform(projectPointsOnMap);
+    let transform = d3.geoTransform({point: projectPointsOnMap});
     let d3path = d3.geoPath().projection(transform);
 
     // similar to projectPoint this function converts lat/long to
     //svg coordinates except that it accepts a point from our
     //GeoJSON
     function applyLatLngToLayer(d) {
-        var x = d.geometry.coordinates[0];
-        var y = d.geometry.coordinates[1];
+        let x = d.geometry.coordinates[0];
+        let y = d.geometry.coordinates[1];
         //Remove comment when reached task 19
         return leaflet_map.latLngToLayerPoint(new L.LatLng(y, x));
     }
@@ -76,7 +76,7 @@ function worldMap(data) {
     //features for the points
     
 
-    let feature = g.selectAll("circle")
+    var feature = g.selectAll("circle")
         .data(data.features)
         .enter()
         .append("circle")
@@ -89,7 +89,7 @@ function worldMap(data) {
      * Task 20 - Call the plot function with feature variable
      * not integers needed.
      */
-    let points = new Points();
+    var points = new Points();
     points.plot(feature);
 
 
