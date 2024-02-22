@@ -11,26 +11,27 @@ function worldMap(data) {
     /**
      * Task 14 - Create a leaflet map and put center to 10,15 with zoom scale of 1
      */
+
+    // https://leafletjs.com/examples/quick-start/
     let leaflet_map = L.map('mapid').setView([10, 15], 1);
 
     /**
      * Task 15 - Get the tileLayer from the link at the bottom of this file
      * and add it to the map created above.
     */
+
     let mapLink = L.tileLayer(map_link())
     mapLink.addTo(leaflet_map);
-   
 
     /**
      * Task 16 - Create an svg call on top of the leaflet map.
      * Also append a g tag on this svg tag and add class leaflet-zoom-hide.
      * This g tag will be needed later.
      */
+
+
     let svg_map = d3.select(leaflet_map.getPanes().overlayPane).append("svg");
     let g = svg_map.append("g").attr("class", "leafet-zoom-hide");
-
-    
-
 
     /**
      * Task 17 - Create a function that projects lat/lng points on the map.
@@ -38,9 +39,10 @@ function worldMap(data) {
      */
 
     function projectPointsOnMap(x,y){
+
         let lat = new L.LatLng(y,x);
         let point = leaflet_map.latLngToLayerPoint(lat);
-        
+         
         this.stream.point(point.x, point.y);
     }
 
@@ -50,8 +52,8 @@ function worldMap(data) {
      * {point:function.}
      * Create another variable names d3geoPath to project this transformation to it.
      */
-    //Transforming to the specific projection
 
+    //Transforming to the specific projection
     let transform = d3.geoTransform({point: projectPointsOnMap});
     let d3path = d3.geoPath().projection(transform);
 
@@ -74,7 +76,6 @@ function worldMap(data) {
      * Also add a class called mapcircle and set opacity to 0.4
      */
     //features for the points
-    
 
     var feature = g.selectAll("circle")
         .data(data.features)

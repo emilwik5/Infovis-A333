@@ -46,30 +46,33 @@ function focusPlusContext(data) {
     /**
      * Task 1 - Parse date with timeParse to year-month-day
      */
-    var parseDate = d3.timeParse("%Y-%m-%d");
+    let parseDate = d3.timeParse("%Y-%m-%d");
     /**
      * Task 2 - Define scales and axes for scatterplot
      */
-    var xScale = d3.scaleTime().range([0, width]);
-    var yScale = d3.scaleLinear().range([0, height]);
 
-    var xAxis = d3.axisBottom(xScale);
-    var yAxis = d3.axisLeft(yScale);
+    
+    let xScale = d3.scaleTime().range([0, width]);
+    let yScale = d3.scaleLinear().range([0, height]);
+
+    let xAxis = d3.axisBottom(xScale);
+    let yAxis = d3.axisLeft(yScale);
 
     /** 
      * Task 3 - Define scales and axes for context (Navigation through the data)
      */
-    var navXScale = d3.scaleTime().range([0, width]);
-    var navYScale = d3.scaleLinear().range([height2, 0]);
 
-    var navXAxis = d3.axisBottom(navXScale);
+    
+    let navXScale = d3.scaleTime().range([0, width]);
+    let navYScale = d3.scaleLinear().range([height2, 0]);
+
+    let navXAxis = d3.axisBottom(navXScale);
     /**
      * Task 4 - Define the brush for the context graph (Navigation)
      */
 
-    var brush = d3.brushX().extent([[0,0],[width,height2]]).on("brush end", brushed);   
+    let brush = d3.brushX().extent([[0,0],[width,height2]]).on("brush", brushed);   
     
-
     //Setting scale parameters
     var maxDate = d3.max(data.features, function (d) { return parseDate(d.properties.Date) });
     var minDate = d3.min(data.features, function (d) { return parseDate(d.properties.Date) });
@@ -82,6 +85,7 @@ function focusPlusContext(data) {
     /**
      * Task 5 - Set the axes scales, both for focus and context.
      */
+ 
     xScale.domain([minDate, maxDate]);
     yScale.domain([maxMag, minMag]);
     
@@ -106,9 +110,6 @@ function focusPlusContext(data) {
         .attr("transform", "translate(0," + height2 + ")")
         .call(navXAxis);
   
-   
-   
-
     /**
      * Task 7 - Plot the small dots on the context graph.
      */
@@ -127,7 +128,7 @@ function focusPlusContext(data) {
       * plot(points,nr,nr) try to use different numbers for the scaling.
       */
         
-        points.plot(small_points,1,2);
+        points.plot(small_points,2,3);
 
     //<---------------------------------------------------------------------------------------------------->
 
@@ -142,10 +143,15 @@ function focusPlusContext(data) {
     /**
      * Task 10 - Call x and y axis
      */
-    focus.append("g").attr("class", "axis axis--x").attr("transform", "translate(0," + height + ")").call(xAxis);
-    //here..
-    focus.append("g").attr("class", "axis axis--y").call(yAxis);
-    //here..
+    focus.append("g")
+        .attr("class", "axis axis--x") 
+        .attr("transform", "translate(0," + height + ")") 
+        .call(xAxis);
+    
+    focus.append("g")
+        .attr("class", "axis axis--y")
+        .call(yAxis);
+    
 
     //Add y axis label to the scatter plot
     d3.select(".legend")
@@ -183,7 +189,7 @@ function focusPlusContext(data) {
      * plot(points,nr,nr) no need to send any integers!
      */
         
-        points.plot(selected_dots,1,2)
+        points.plot(selected_dots,1, 1.5)
     //<---------------------------------------------------------------------------------------------------->
 
     //Mouseover function
@@ -199,6 +205,7 @@ function focusPlusContext(data) {
             /**
              * Task 13 - Update information in the "tooltip" by calling the tooltip function.
              */
+
             points.tooltip(d);
 
             //Rescale the dots onhover
